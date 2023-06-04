@@ -16,9 +16,9 @@ public class MovingPlatform : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Vector2.Distance(transform.position, posB.position) < 1f)
+        if (Vector2.SqrMagnitude(transform.position - posB.position) < 1f)
             targetPos = posA.position;
-        if (Vector2.Distance(transform.position, posA.position) < 1f)
+        if (Vector2.SqrMagnitude(transform.position - posA.position) < 1f)
             targetPos = posB.position;
 
         transform.position = Vector2.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
@@ -26,7 +26,7 @@ public class MovingPlatform : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.tag == "Player" && collision !=null)
+        if (collision != null && collision.gameObject.tag == "Player")
         {
              collision.transform.SetParent(transform);
         }
@@ -34,7 +34,7 @@ public class MovingPlatform : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player" && collision != null)
+        if (collision != null && collision.gameObject.tag == "Player")
         {
             collision.transform.SetParent(null);
         }
